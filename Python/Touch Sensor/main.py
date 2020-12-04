@@ -12,7 +12,6 @@ class Touch:
         self.last_sign = 1
         self.last_long = False
         self.touch_signal = False
-        GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.infrared, GPIO.IN)
 
@@ -60,10 +59,10 @@ class Touch:
                 # self.last_sign = GPIO.input(self.infrared)
                 # time.sleep(0.2)
         except KeyboardInterrupt:
+            GPIO.cleanup()
             pass
 
 
 if __name__ == "__main__":
     senor = Touch()
     senor.detect()
-    print("Over")
