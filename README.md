@@ -15,6 +15,8 @@ This is a long-term plan to build a magic mirror with Raspberry Pi 4B
 
 ## Indexes
 
+- Python
+    - [Wake up the screen with touch](Python/Touch%20Sensor/README.md)
 - C
     - [Light Up a LED](C/Light%20Up%20LED/README.md)
 
