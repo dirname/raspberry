@@ -1,7 +1,6 @@
 import time
 
 import RPi.GPIO as GPIO
-from gpiozero import Buzzer
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(27, GPIO.OUT)

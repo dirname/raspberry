@@ -12,6 +12,8 @@ class Touch:
         self.last_sign = 1
         self.last_long = False
         self.touch_signal = False
+        display = os.popen("sudo -u pi xauth list :0.0").read()
+        os.system("sudo -S xauth add " + display)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.infrared, GPIO.IN)
 
