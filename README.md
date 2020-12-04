@@ -9,14 +9,14 @@ This is a long-term plan to build a magic mirror with Raspberry Pi 4B
     - GCC 8.3.0 (Raspbian 8.3.0-6+rpi1)
     - Python 3.7.3
 
-## Sensor
+## Sensors
 
 [Sensor Detail](SENSOR.md)
 
-## Index
+## Indexes
 
 - C
-    - [Light Up a LED](C/LED/README.md)
+    - [Light Up a LED](C/Light%20Up%20LED/README.md)
 
 ## GPIO
 

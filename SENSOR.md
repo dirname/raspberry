@@ -1,4 +1,4 @@
-# Sensor
+# Sensors
 
 - GPIO
     - [GPIO Extended Board](#GPIO-Extended-Board)

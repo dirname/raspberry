@@ -12,7 +12,7 @@ void test(void) {
     int LED = 8;
     wiringPiSetup();
 
-    pinMode(LED, OUTPUT);
+    pinMode(LED, INPUT);
 
     int number = 10;
     int count = 0;
