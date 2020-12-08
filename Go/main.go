@@ -3,19 +3,29 @@ package main
 import (
 	"github.com/stianeikeland/go-rpio/v4"
 	"log"
-	"os/exec"
-	"regexp"
-	"strconv"
-	"time"
+	"net"
+	"raspberry/Command"
+	"raspberry/Sensor"
 )
 
 const (
-	touchPin = 20
-	gapTime  = 20
-	monitor  = ":0.0"
+	monitor = ":0.0"
 )
 
+func getIntranetIP() string {
+	adders, _ := net.InterfaceAddrs()
+	for _, addr := range adders {
+		if inet, ok := addr.(*net.IPNet); ok && !inet.IP.IsLoopback() {
+			if inet.IP.To4() != nil {
+				return inet.IP.String()
+			}
+		}
+	}
+	return ""
+}
+
 func main() {
+	log.Printf("Your Intranet IP: %s\n", getIntranetIP())
 	/* If you remotely debug/run the please add the xauth entry
 	cmd := exec.Command("sudo", "-u", "pi", "xauth", "list", monitor)
 	var output bytes.Buffer
@@ -30,43 +40,16 @@ func main() {
 	if err := rpio.Open(); err != nil {
 		log.Printf("Failed to open rpio: %s", err.Error())
 	}
-	c := make(chan int)
-	go touchListener(c)
+	touchChanel := make(chan int)
+	go Sensor.TouchListener(&touchChanel)
+	screen := Command.Screen{DisplayName: monitor}
 	for {
-		flag := <-c
+		flag := <-touchChanel
 		switch flag {
 		case 1:
-			exec.Command("xset", "-display", monitor, "dpms", "force", "off").Run()
+			screen.TurnOff()
 		case 2:
-			exec.Command("xset", "-display", monitor, "dpms", "force", "on").Run()
-		}
-	}
-}
-
-func touchListener(c chan int) {
-	pin := rpio.Pin(touchPin) // find touch panel
-	pin.Input()               // set mode to input
-	var isTouch = new(bool)
-	var signalArray = new(string)
-	var signal = new(rpio.State)
-	for true {
-		*signal = pin.Read()
-		if *signal == 0 {
-			*isTouch = true
-		}
-		time.Sleep(time.Millisecond * gapTime)
-		if *isTouch {
-			*signalArray += strconv.Itoa(int(*signal))
-			if len(*signalArray) > 20 {
-				re := regexp.MustCompile("^0.*10.*1$")
-				if re.MatchString(*signalArray) {
-					c <- 2
-				} else {
-					c <- 1
-				}
-				*isTouch = false
-				*signalArray = ""
-			}
+			screen.WakeUp()
 		}
 	}
 }

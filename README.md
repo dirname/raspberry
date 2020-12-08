@@ -5,9 +5,10 @@ This is a long-term plan to build a magic mirror with Raspberry Pi 4B
 - Raspberry Pi 4B
     - Raspbian
 - Environment
-    - Go 1.11.6
+    - Go 1.15.6
     - GCC 8.3.0 (Raspbian 8.3.0-6+rpi1)
     - Python 3.7.3
+    - Redis 5.0.3
 
 ## Sensors
 
