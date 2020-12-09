@@ -7,3 +7,5 @@ This is a main program for magic-mirror base on Raspberry Pi 4B
 - Go 1.15.6
 
 ## API
+
+[API](API.md)
