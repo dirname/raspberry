@@ -28,14 +28,10 @@ func getIntranetIP() string {
 	return ""
 }
 
-func ChannelListener(touchPanel *chan int, battery *chan models.BatteryReport) {
+func ChannelListener(touchPanel *chan int, battery *chan models.BatteryReport, ups *models.UPS) {
 	go sensor.TouchListener(touchPanel)
 	go sensor.BatteryListener(battery)
 	screen := command.Screen{DisplayName: monitor}
-	ups := models.UPS{}
-	if err := database.RedisClient.Set(database.Ctx, "battery", &ups, 0).Err(); err != nil {
-		logrus.Fatalf("Failed to set UPS address to redis %s", err.Error())
-	}
 	for {
 		select {
 		case flag := <-*touchPanel:
@@ -60,22 +56,23 @@ func ChannelListener(touchPanel *chan int, battery *chan models.BatteryReport) {
 	}
 }
 
-func initSensor() {
+func initSensor(ups *models.UPS) {
 	if err := rpio.Open(); err != nil {
 		logrus.Fatalf("Failed to open rpio: %s\n", err.Error())
 	}
 	touchChannel := make(chan int)
 	batteryChannel := make(chan models.BatteryReport)
-	go ChannelListener(&touchChannel, &batteryChannel)
+	go ChannelListener(&touchChannel, &batteryChannel, ups)
 }
 
 func main() {
 	defer database.RedisClient.Close()
 	logs.Setup()
 	logrus.Infof("Your Intranet IP: %s\n", getIntranetIP())
-	initSensor()
+	ups := models.UPS{}
+	initSensor(&ups)
 	gin.SetMode(gin.DebugMode)
-	router := initRouter()
+	router := initRouter(&ups)
 	router.Run(":5000")
 
 	/* If you remotely debug/run the please add the xauth entry

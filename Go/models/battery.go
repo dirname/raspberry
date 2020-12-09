@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"regexp"
 )
@@ -12,7 +13,7 @@ type BatteryReport struct {
 }
 
 type UPS struct {
-	Info          string
+	Info          string `json:"-"`
 	Version       string
 	Capacity      string
 	OutputVoltage string
@@ -40,4 +41,8 @@ func (u *UPS) Parse() error {
 	} else {
 		return errors.New("Not a normal signal")
 	}
+}
+
+func (u *UPS) BatteryAPI(c *gin.Context) {
+	c.JSONP(200, u)
 }
