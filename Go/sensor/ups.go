@@ -1,14 +1,14 @@
-package Sensor
+package sensor
 
 import (
 	"github.com/sirupsen/logrus"
 	"github.com/tarm/serial"
 	"math/rand"
-	"raspberry/Models"
+	"raspberry/models"
 	"time"
 )
 
-func BatteryListener(c *chan Models.BatteryReport) {
+func BatteryListener(c *chan models.BatteryReport) {
 	id := rand.Int()
 	config := &serial.Config{
 		Name: "/dev/ttyAMA0",
@@ -20,7 +20,7 @@ func BatteryListener(c *chan Models.BatteryReport) {
 	}
 	defer s.Close()
 	buf := make([]byte, 1024)
-	result := Models.BatteryReport{}
+	result := models.BatteryReport{}
 	for {
 		num, err := s.Read(buf)
 		if err != nil {

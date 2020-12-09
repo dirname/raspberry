@@ -1,4 +1,4 @@
-package Logs
+package logs
 
 import (
 	"github.com/lestrrat-go/file-rotatelogs"

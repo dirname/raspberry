@@ -1,4 +1,4 @@
-package Sensor
+package sensor
 
 import (
 	"github.com/stianeikeland/go-rpio/v4"
