@@ -8,4 +8,4 @@ This is a main program for magic-mirror base on Raspberry Pi 4B
 
 ## API
 
-[API](API.md)
+[API Document](API.md)
