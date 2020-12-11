@@ -7,25 +7,30 @@ import (
 	"github.com/sirupsen/logrus"
 	"os"
 	"path/filepath"
+	"raspberry/utils"
 	"strings"
 	"time"
 )
 
 const (
-	infoPath  = "/var/log/raspberry/info/"
-	errorPath = "/var/log/raspberry/error/"
+	infoPath  = "/log/raspberry/info/"
+	errorPath = "/log/raspberry/error/"
 )
 
 // Setup
 func Setup() {
-	if err := os.MkdirAll(infoPath, 0666); err != nil {
+	home, err := utils.Home()
+	if err != nil {
+		logrus.Errorf("Failed to get home dir: %s\n", err.Error())
+	}
+	if err := os.MkdirAll(home+infoPath, 0755); err != nil {
 		logrus.Errorf("Failed to make info dir: %s\n", err.Error())
 	}
-	if err := os.MkdirAll(errorPath, 0666); err != nil {
+	if err := os.MkdirAll(home+errorPath, 0755); err != nil {
 		logrus.Errorf("Failed to make err dir: %s\n", err.Error())
 	}
 	writer, err := rotatelogs.New(
-		infoPath+"%Y-%m-%d"+".log",
+		home+infoPath+"%Y-%m-%d"+".log",
 		rotatelogs.WithLinkName("log.log"),        // 生成软链，指向最新日志文件
 		rotatelogs.WithMaxAge(7*24*time.Hour),     // 文件最大保存时间
 		rotatelogs.WithRotationTime(24*time.Hour), // 日志切割时间间隔
@@ -35,7 +40,7 @@ func Setup() {
 	}
 
 	errorWriter, err := rotatelogs.New(
-		errorPath+"%Y-%m-%d"+".log",
+		home+errorPath+"%Y-%m-%d"+".log",
 		rotatelogs.WithLinkName("error.log"),      // 生成软链，指向最新日志文件
 		rotatelogs.WithMaxAge(7*24*time.Hour),     // 文件最大保存时间
 		rotatelogs.WithRotationTime(24*time.Hour), // 日志切割时间间隔

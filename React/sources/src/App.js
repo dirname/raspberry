@@ -25,16 +25,36 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={this.state.url} className="App-logo" alt="logo"/>
-                    <p>
-                        {this.state.info}
-                    </p>
-                </header>
+            <div style={{backgroundColor: 'black'}}>
+                <p style={{color: 'white', margin: 0}}>Battery: 10%</p>
+                <div style={{
+                    backgroundImage: `url(${this.state.image.url})`,
+                    backgroundSize: 'cover',
+                    height: '100%',
+                    width: '100%',
+                    position: 'absolute',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    paddingTop: '30px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-around',
+                    padding: '0 10vw',
+                }}>
+                    <p style={{color: "white"}}>{this.state.info}</p>
+                </div>
             </div>
+
+            // <div className="App" style={{backgroundImage: `url(${this.state.url})`}}>
+            //     <header className="App-header">
+            //         {/*<img src={this.state.url} className="App-logo" alt="logo"/>*/}
+            //         <p>
+            //             {this.state.info}
+            //         </p>
+            //     </header>
+            // </div>
         );
-    }
+    };
 }
 
 export default App;

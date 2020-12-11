@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	"github.com/stianeikeland/go-rpio/v4"
 	"net"
 	"raspberry/command"
 	"raspberry/database"
@@ -57,9 +56,7 @@ func ChannelListener(touchPanel *chan int, battery *chan models.BatteryReport, u
 }
 
 func initSensor(ups *models.UPS) {
-	if err := rpio.Open(); err != nil {
-		logrus.Fatalf("Failed to open rpio: %s\n", err.Error())
-	}
+
 	touchChannel := make(chan int)
 	batteryChannel := make(chan models.BatteryReport)
 	go ChannelListener(&touchChannel, &batteryChannel, ups)

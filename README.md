@@ -10,6 +10,22 @@ This is a long-term plan to build a magic mirror with Raspberry Pi 4B
     - Python 3.7.3
     - Redis 5.0.3
 
+## Raspberry Pi Config
+
+## Interfaces
+
+| Name | Status |
+|----|----|
+| Camera | Disable |
+| SSH | Enable |
+| VNC | Disable |
+| SPI | Disable |
+| I2C | Disable |
+| Serial Port | Enable |
+| Serial Console | Disable |
+| 1-Wire | Disable |
+| Remote GPIO | Disable |
+
 ## Sensors
 
 [Sensor Detail](SENSOR.md)

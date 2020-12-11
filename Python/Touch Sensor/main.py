@@ -46,6 +46,7 @@ class Touch:
                     is_double = re.compile("^0.*10.*1$")
                     if is_double.match(signal_array):
                         # Double Click
+                        print("double")
                         os.system("xset -display :0.0 dpms force on")
                     else:
                         # Single Click

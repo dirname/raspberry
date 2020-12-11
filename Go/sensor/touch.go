@@ -1,6 +1,7 @@
 package sensor
 
 import (
+	"github.com/sirupsen/logrus"
 	"github.com/stianeikeland/go-rpio/v4"
 	"regexp"
 	"strconv"
@@ -13,6 +14,9 @@ const (
 )
 
 func TouchListener(c *chan int) {
+	if err := rpio.Open(); err != nil {
+		logrus.Fatalf("Failed to open rpio: %s\n", err.Error())
+	}
 	pin := rpio.Pin(touchPin) // find touch panel
 	pin.Input()               // set mode to input
 	var isTouch = new(bool)
@@ -26,7 +30,7 @@ func TouchListener(c *chan int) {
 		time.Sleep(time.Millisecond * gapTime)
 		if *isTouch {
 			*signalArray += strconv.Itoa(int(*signal))
-			if len(*signalArray) > 20 {
+			if len(*signalArray) > 20 && *isTouch {
 				re := regexp.MustCompile("^0.*10.*1$")
 				if re.MatchString(*signalArray) {
 					*c <- 2
