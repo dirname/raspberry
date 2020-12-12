@@ -10,7 +10,23 @@ This is a long-term plan to build a magic mirror with Raspberry Pi 4B
     - Python 3.7.3
     - Redis 5.0.3
 
-## Raspberry Pi Config
+## Raspberry Pi Configuration
+
+Dut to [stianeikeland/go-rpio](https://github.com/stianeikeland/go-rpio) not working with **sudo**, you need to have permission to read the serial port under the `pi` user
+
+Issues: [stianeikeland/go-rpio#61](https://github.com/stianeikeland/go-rpio/issues/61)
+
+### How to make pi have permission to read the serial port
+
+Disbaled `Serial Console` in interfaces
+
+[More Infomation](https://www.raspberrypi.org/forums/viewtopic.php?t=197823)
+
+>Let us not go crazy. 0666 or 0777 is never the right mode for anything.
+>
+>The problem here is that something else is using the device. That is why it is in group "tty" instead of "dialout".
+>
+>Disable serial shell in the interfacing options in "sudo raspi-config".
 
 ## Interfaces
 
